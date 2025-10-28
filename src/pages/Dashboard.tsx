@@ -35,7 +35,7 @@ const Dashboard = () => {
               <Menu size={24} />
             </Button>
             <div>
-              <h1 className="text-xl font-bold text-primary">Booth {constituencyData.number}</h1>
+              <h1 className="text-xl font-bold text-primary">Assembly Constituency {constituencyData.number}</h1>
               <p className="text-sm text-muted-foreground">{constituencyData.name}</p>
             </div>
           </div>
@@ -51,7 +51,7 @@ const Dashboard = () => {
       <main className="p-4 md:p-8 max-w-7xl mx-auto">
         {/* Booth Overview Section */}
         <section className="mb-8 animate-fade-in">
-          <h2 className="text-2xl font-bold text-foreground mb-6">Booth Overview</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-6">Overview</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
               icon={<Users className="w-8 h-8" />}
@@ -101,7 +101,7 @@ const Dashboard = () => {
             />
             <ActionCard
               icon="📊"
-              title="Reports"
+              title="Booth Reports"
               description="View progress"
             />
           </div>

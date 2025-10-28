@@ -16,7 +16,7 @@ const App = () => <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} className="bg-slate-900" />
+          <Route path="/login" element={<Login />} />
           <Route path="/constituencies" element={<Constituencies />} />
           <Route path="/dashboard/:id" element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
