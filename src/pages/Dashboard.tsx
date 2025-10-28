@@ -140,15 +140,15 @@ const Dashboard = () => {
             <Home size={20} />
             <span className="text-xs font-medium">Home</span>
           </button>
-          <button className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-muted transition-colors">
+          <button className="flex flex-col items-center gap-1 p-2 rounded-lg">
             <Users size={20} className="text-muted-foreground" />
             <span className="text-xs text-muted-foreground">Voters</span>
           </button>
-          <button className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-muted transition-colors">
+          <button className="flex flex-col items-center gap-1 p-2 rounded-lg">
             <ClipboardCheck size={20} className="text-muted-foreground" />
             <span className="text-xs text-muted-foreground">Survey</span>
           </button>
-          <button className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-muted transition-colors">
+          <button className="flex flex-col items-center gap-1 p-2 rounded-lg">
             <BarChart3 size={20} className="text-muted-foreground" />
             <span className="text-xs text-muted-foreground">Report</span>
           </button>
