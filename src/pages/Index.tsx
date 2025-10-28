@@ -1,47 +1,40 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { BarChart3, Users, ClipboardList } from "lucide-react";
+import { BarChart3, Users, ClipboardList, Vote } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 flex items-center justify-center p-4">
-      <div className="text-center max-w-2xl animate-fade-in">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="text-center max-w-3xl animate-fade-in">
         <div className="mb-8 flex justify-center gap-4">
-          <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center animate-fade-in">
-            <Users className="w-8 h-8 text-accent" />
+          <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center animate-fade-in">
+            <Users className="w-8 h-8 text-blue-600" />
           </div>
-          <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center animate-fade-in" style={{ animationDelay: "0.1s" }}>
-            <ClipboardList className="w-8 h-8 text-success" />
+          <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center animate-fade-in" style={{ animationDelay: "0.1s" }}>
+            <ClipboardList className="w-8 h-8 text-green-600" />
           </div>
-          <div className="w-16 h-16 bg-destructive/10 rounded-2xl flex items-center justify-center animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            <BarChart3 className="w-8 h-8 text-destructive" />
+          <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            <BarChart3 className="w-8 h-8 text-red-600" />
           </div>
         </div>
         
-        <h1 className="mb-4 text-5xl font-bold text-primary">
-          Assembly Constituency Management System
+        <h1 className="mb-6 text-5xl md:text-6xl font-bold text-gray-900">
+          Election Management System
         </h1>
-        <p className="text-xl text-muted-foreground mb-8">
-          Manage voters, families, surveys, and reports efficiently across all constituencies
+        <p className="text-xl md:text-2xl text-gray-600 mb-10">
+          Efficiently manage voters, families, surveys, and electoral reports
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center">
           <Button
             onClick={() => navigate("/login")}
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-white rounded-2xl text-lg px-8 py-6 shadow-lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-lg px-10 py-6 shadow-lg font-bold transition-all duration-300 hover:scale-105"
           >
+            <Vote className="mr-2 h-6 w-6" />
             Get Started
-          </Button>
-          <Button
-            onClick={() => navigate("/constituencies")}
-            size="lg"
-            variant="outline"
-            className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground rounded-2xl text-lg px-8 py-6"
-          >
-            View Constituencies
           </Button>
         </div>
       </div>

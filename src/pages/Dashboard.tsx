@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Home, ClipboardCheck, BarChart3, Menu, Bell } from "lucide-react";
+import { Users, Home, ClipboardCheck, BarChart3, Menu, Bell, User, Users2, FileText, PieChart } from "lucide-react";
 import StatCard from "@/components/StatCard";
 import ActionCard from "@/components/ActionCard";
 import { Button } from "@/components/ui/button";
@@ -136,25 +136,25 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold text-foreground mb-6">Quick Actions</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <ActionCard
-              icon="👥"
+              icon={<User className="w-8 h-8 text-blue-500" />}
               title="Voter Manager"
               description="View & update voters"
               link="/voter-manager/:id"
             />
             <ActionCard
-              icon="🏠"
+              icon={<Users2 className="w-8 h-8 text-green-500" />}
               title="Family Manager"
               description="Manage families"
               link="/family-manager/:id"
             />
             <ActionCard
-              icon="📋"
+              icon={<FileText className="w-8 h-8 text-purple-500" />}
               title="Survey Manager"
               description="Complete surveys"
               link="/survey-manager/:id"
             />
             <ActionCard
-              icon="📊"
+              icon={<PieChart className="w-8 h-8 text-orange-500" />}
               title="Booth Reports"
               description="View progress"
               link="/booth-reports/:id"
@@ -183,28 +183,6 @@ const Dashboard = () => {
           </div>
         </section>
       </main>
-
-      {/* Bottom Navigation for Mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg">
-        <div className="grid grid-cols-4 gap-1 p-2">
-          <button className="flex flex-col items-center gap-1 p-2 rounded-lg bg-accent/10 text-accent">
-            <Home size={20} />
-            <span className="text-xs font-medium">Home</span>
-          </button>
-          <button className="flex flex-col items-center gap-1 p-2 rounded-lg">
-            <Users size={20} className="text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Voters</span>
-          </button>
-          <button className="flex flex-col items-center gap-1 p-2 rounded-lg">
-            <ClipboardCheck size={20} className="text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Survey</span>
-          </button>
-          <button className="flex flex-col items-center gap-1 p-2 rounded-lg">
-            <BarChart3 size={20} className="text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Report</span>
-          </button>
-        </div>
-      </nav>
     </div>
   );
 };
