@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Users, Home, ClipboardCheck, BarChart3, Menu, Bell } from "lucide-react";
 import StatCard from "@/components/StatCard";
 import ActionCard from "@/components/ActionCard";
@@ -6,17 +8,66 @@ import { Button } from "@/components/ui/button";
 
 const Dashboard = () => {
   const { id } = useParams();
+  const [stats, setStats] = useState({
+    totalVoters: 0,
+    totalFamilies: 0,
+    surveysCompleted: 0,
+    totalBooths: 0,
+  });
+  const [constituencyName, setConstituencyName] = useState("");
+  
+  useEffect(() => {
+    fetchDashboardData();
+  }, [id]);
+
+  const fetchDashboardData = async () => {
+    try {
+      // Fetch constituency info
+      const { data: constituency } = await supabase
+        .from("constituencies")
+        .select("name")
+        .eq("number", parseInt(id || "118"))
+        .single();
+
+      if (constituency) setConstituencyName(constituency.name);
+
+      // Fetch voters count
+      const { count: votersCount } = await supabase
+        .from("voters")
+        .select("*", { count: "exact", head: true });
+
+      // Fetch families count
+      const { count: familiesCount } = await supabase
+        .from("families")
+        .select("*", { count: "exact", head: true });
+
+      // Fetch completed surveys count
+      const { count: surveysCount } = await supabase
+        .from("surveys")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "completed");
+
+      // Fetch booths count
+      const { count: boothsCount } = await supabase
+        .from("booths")
+        .select("*", { count: "exact", head: true });
+
+      setStats({
+        totalVoters: votersCount || 0,
+        totalFamilies: familiesCount || 0,
+        surveysCompleted: surveysCount || 0,
+        totalBooths: boothsCount || 0,
+      });
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    }
+  };
   
   // Mock data - would come from API in real app
   const constituencyData = {
     number: id || "118",
-    name: "Thondamuthur",
-    stats: {
-      totalVoters: 1247,
-      totalFamilies: 342,
-      surveysCompleted: 156,
-      totalBooths: 89,
-    },
+    name: constituencyName || "Thondamuthur",
+    stats: stats,
   };
 
   const recentActivity = [

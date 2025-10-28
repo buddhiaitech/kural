@@ -1,35 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-const constituencies = [
-  { number: 118, name: "Thondamuthur" },
-  { number: 119, name: "To be updated" },
-  { number: 120, name: "To be updated" },
-  { number: 121, name: "To be updated" },
-  { number: 122, name: "To be updated" },
-  { number: 123, name: "To be updated" },
-  { number: 124, name: "To be updated" },
-  { number: 125, name: "To be updated" },
-  { number: 126, name: "To be updated" },
-  { number: 127, name: "To be updated" },
-  { number: 128, name: "To be updated" },
-  { number: 129, name: "To be updated" },
-  { number: 130, name: "To be updated" },
-  { number: 131, name: "To be updated" },
-  { number: 132, name: "To be updated" },
-  { number: 133, name: "To be updated" },
-  { number: 134, name: "To be updated" },
-  { number: 135, name: "To be updated" },
-  { number: 136, name: "To be updated" },
-  { number: 137, name: "To be updated" },
-  { number: 138, name: "To be updated" },
-];
+interface Constituency {
+  id: string;
+  number: number;
+  name: string;
+}
 
 const Constituencies = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [constituencies, setConstituencies] = useState<Constituency[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchConstituencies();
+  }, []);
+
+  const fetchConstituencies = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("constituencies")
+        .select("*")
+        .order("number");
+
+      if (error) throw error;
+      setConstituencies(data || []);
+    } catch (error) {
+      console.error("Error fetching constituencies:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredConstituencies = constituencies.filter(
     (c) =>
@@ -56,20 +61,26 @@ const Constituencies = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-fade-in">
-          {filteredConstituencies.map((constituency) => (
-            <button
-              key={constituency.number}
-              onClick={() => navigate(`/dashboard/${constituency.number}`)}
-              className="bg-card border border-border rounded-2xl p-6 text-left"
-            >
-              <div className="text-3xl font-bold text-accent mb-2">
-                {constituency.number}
-              </div>
-              <div className="text-lg font-semibold text-card-foreground">
-                {constituency.name}
-              </div>
-            </button>
-          ))}
+          {loading ? (
+            <div className="col-span-full text-center py-12 text-muted-foreground">Loading constituencies...</div>
+          ) : filteredConstituencies.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-muted-foreground">No constituencies found</div>
+          ) : (
+            filteredConstituencies.map((constituency) => (
+              <button
+                key={constituency.number}
+                onClick={() => navigate(`/dashboard/${constituency.number}`)}
+                className="bg-card border border-border rounded-2xl p-6 text-left"
+              >
+                <div className="text-3xl font-bold text-accent mb-2">
+                  {constituency.number}
+                </div>
+                <div className="text-lg font-semibold text-card-foreground">
+                  {constituency.name}
+                </div>
+              </button>
+            ))
+          )}
         </div>
       </div>
     </div>
