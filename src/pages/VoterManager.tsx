@@ -173,7 +173,7 @@ const VoterManager = () => {
             <div className="text-center py-12 text-muted-foreground">No voters found</div>
           ) : (
             filteredVoters.map((voter) => (
-              <div key={voter.id} className="bg-card rounded-xl border border-border p-4 hover:shadow-md transition-shadow">
+              <div key={voter.id} className="bg-card rounded-xl border border-border p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">

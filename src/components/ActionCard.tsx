@@ -20,14 +20,14 @@ const ActionCard = ({ icon, title, description, link }: ActionCardProps) => {
   return (
     <button
       onClick={handleClick}
-      className="bg-card rounded-2xl border border-border p-6 hover:border-accent hover:shadow-lg transition-all duration-200 hover:scale-105 group text-left"
+      className="bg-card rounded-2xl border border-border p-6 text-left"
     >
       <div className="flex flex-col items-center text-center space-y-3">
-        <div className="text-5xl group-hover:scale-110 transition-transform">
+        <div className="text-5xl">
           {icon}
         </div>
         <div className="space-y-1">
-          <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">
+          <h3 className="font-bold text-foreground">
             {title}
           </h3>
           <p className="text-sm text-muted-foreground">{description}</p>

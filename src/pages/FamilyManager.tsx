@@ -78,7 +78,7 @@ const FamilyManager = () => {
             <div className="col-span-full text-center py-12 text-muted-foreground">No families found</div>
           ) : (
             filteredFamilies.map((family) => (
-              <div key={family.id} className="bg-card rounded-xl border border-border p-6 hover:shadow-md transition-shadow">
+              <div key={family.id} className="bg-card rounded-xl border border-border p-6">
                 <div className="flex items-start gap-3 mb-4">
                   <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
                     <Home className="text-accent" size={24} />

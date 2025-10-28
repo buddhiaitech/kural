@@ -60,9 +60,9 @@ const Constituencies = () => {
             <button
               key={constituency.number}
               onClick={() => navigate(`/dashboard/${constituency.number}`)}
-              className="bg-card hover:bg-accent/10 border border-border rounded-2xl p-6 text-left transition-all duration-200 hover:shadow-lg hover:scale-105 hover:border-accent group"
+              className="bg-card border border-border rounded-2xl p-6 text-left"
             >
-              <div className="text-3xl font-bold text-accent mb-2 group-hover:scale-110 transition-transform">
+              <div className="text-3xl font-bold text-accent mb-2">
                 {constituency.number}
               </div>
               <div className="text-lg font-semibold text-card-foreground">

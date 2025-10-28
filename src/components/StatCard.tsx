@@ -21,7 +21,7 @@ const StatCard = ({ icon, label, value, variant }: StatCardProps) => {
   };
 
   return (
-    <div className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
       <div className="flex flex-col items-center text-center space-y-4">
         <div className={cn("opacity-80", variantStyles[variant])}>
           {icon}
