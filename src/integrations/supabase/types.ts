@@ -14,7 +14,205 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      booths: {
+        Row: {
+          booth_number: number
+          constituency_id: string
+          created_at: string
+          id: string
+          name: string | null
+          total_voters: number | null
+        }
+        Insert: {
+          booth_number: number
+          constituency_id: string
+          created_at?: string
+          id?: string
+          name?: string | null
+          total_voters?: number | null
+        }
+        Update: {
+          booth_number?: number
+          constituency_id?: string
+          created_at?: string
+          id?: string
+          name?: string | null
+          total_voters?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booths_constituency_id_fkey"
+            columns: ["constituency_id"]
+            isOneToOne: false
+            referencedRelation: "constituencies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      constituencies: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          number: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          number: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          number?: number
+        }
+        Relationships: []
+      }
+      families: {
+        Row: {
+          address: string | null
+          booth_id: string
+          created_at: string
+          family_id: string
+          id: string
+          survey_status: string | null
+        }
+        Insert: {
+          address?: string | null
+          booth_id: string
+          created_at?: string
+          family_id: string
+          id?: string
+          survey_status?: string | null
+        }
+        Update: {
+          address?: string | null
+          booth_id?: string
+          created_at?: string
+          family_id?: string
+          id?: string
+          survey_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "families_booth_id_fkey"
+            columns: ["booth_id"]
+            isOneToOne: false
+            referencedRelation: "booths"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      surveys: {
+        Row: {
+          booth_id: string
+          completed_at: string | null
+          created_at: string
+          family_id: string
+          id: string
+          status: string | null
+          survey_data: Json | null
+        }
+        Insert: {
+          booth_id: string
+          completed_at?: string | null
+          created_at?: string
+          family_id: string
+          id?: string
+          status?: string | null
+          survey_data?: Json | null
+        }
+        Update: {
+          booth_id?: string
+          completed_at?: string | null
+          created_at?: string
+          family_id?: string
+          id?: string
+          status?: string | null
+          survey_data?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "surveys_booth_id_fkey"
+            columns: ["booth_id"]
+            isOneToOne: false
+            referencedRelation: "booths"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "surveys_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      voters: {
+        Row: {
+          address: string
+          age: number
+          booth_id: string
+          created_at: string
+          family_id: string | null
+          full_name: string
+          gender: string
+          id: string
+          phone_number: string | null
+          special_categories: string[] | null
+          updated_at: string
+          verification_status: string | null
+          voter_id: string
+        }
+        Insert: {
+          address: string
+          age: number
+          booth_id: string
+          created_at?: string
+          family_id?: string | null
+          full_name: string
+          gender: string
+          id?: string
+          phone_number?: string | null
+          special_categories?: string[] | null
+          updated_at?: string
+          verification_status?: string | null
+          voter_id: string
+        }
+        Update: {
+          address?: string
+          age?: number
+          booth_id?: string
+          created_at?: string
+          family_id?: string | null
+          full_name?: string
+          gender?: string
+          id?: string
+          phone_number?: string | null
+          special_categories?: string[] | null
+          updated_at?: string
+          verification_status?: string | null
+          voter_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voters_booth_id_fkey"
+            columns: ["booth_id"]
+            isOneToOne: false
+            referencedRelation: "booths"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voters_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
