@@ -78,7 +78,7 @@ const VoterManager = () => {
     }
 
     try {
-      // Get the first booth for this constituency (temporary solution)
+      // Get the first booth for this constituency
       const { data: booths } = await supabase
         .from("booths")
         .select("id")
@@ -89,16 +89,41 @@ const VoterManager = () => {
         return;
       }
 
+      // Prepare voter data
+      const voterData: any = {
+        voter_id: formData.voter_id,
+        full_name: formData.full_name,
+        age: parseInt(formData.age),
+        gender: formData.gender,
+        phone_number: formData.phone_number || null,
+        address: formData.address,
+        booth_id: booths[0].id,
+        special_categories: formData.special_categories,
+        verification_status: 'pending'
+      };
+
+      // Only add family_id if it exists
+      if (formData.family_id) {
+        // Check if family exists
+        const { data: existingFamily } = await supabase
+          .from("families")
+          .select("id")
+          .eq("family_id", formData.family_id)
+          .single();
+
+        if (existingFamily) {
+          voterData.family_id = existingFamily.id;
+        }
+      }
+
       const { error } = await supabase
         .from("voters")
-        .insert({
-          ...formData,
-          age: parseInt(formData.age),
-          booth_id: booths[0].id,
-          special_categories: formData.special_categories
-        });
+        .insert(voterData);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Insert error:", error);
+        throw error;
+      }
 
       toast.success("Voter added successfully");
       setIsAddDialogOpen(false);

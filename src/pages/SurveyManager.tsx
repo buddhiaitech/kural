@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ClipboardCheck, TrendingUp, Clock, CheckCircle2 } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { ClipboardCheck, TrendingUp, Clock, CheckCircle2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Survey {
@@ -27,6 +28,8 @@ const SurveyManager = () => {
   const [surveys, setSurveys] = useState<Survey[]>([]);
   const [boothStats, setBoothStats] = useState<BoothStats[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [surveyToDelete, setSurveyToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSurveys();
@@ -79,6 +82,33 @@ const SurveyManager = () => {
     } catch (error) {
       console.error("Error fetching booth stats:", error);
     }
+  };
+
+  const handleDeleteSurvey = async () => {
+    if (!surveyToDelete) return;
+
+    try {
+      const { error } = await supabase
+        .from("surveys")
+        .delete()
+        .eq("id", surveyToDelete);
+
+      if (error) throw error;
+
+      toast.success("Survey deleted successfully");
+      setDeleteDialogOpen(false);
+      setSurveyToDelete(null);
+      fetchSurveys();
+      fetchBoothStats();
+    } catch (error: any) {
+      console.error("Error deleting survey:", error);
+      toast.error(error.message || "Failed to delete survey");
+    }
+  };
+
+  const confirmDelete = (surveyId: string) => {
+    setSurveyToDelete(surveyId);
+    setDeleteDialogOpen(true);
   };
 
   const totalSurveys = surveys.length;
@@ -150,6 +180,53 @@ const SurveyManager = () => {
           </div>
         </section>
 
+        {/* Recent Surveys List */}
+        <section className="mb-8">
+          <h2 className="text-xl font-bold text-foreground mb-4">Recent Surveys</h2>
+          <div className="space-y-3">
+            {loading ? (
+              <div className="text-center py-12 text-muted-foreground">Loading surveys...</div>
+            ) : surveys.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">No surveys found</div>
+            ) : (
+              surveys.slice(0, 10).map((survey) => (
+                <Card key={survey.id} className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="font-semibold text-foreground">Family ID: {survey.family_id.substring(0, 8)}</h3>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          survey.status === "completed" 
+                            ? "bg-success/10 text-success" 
+                            : survey.status === "active"
+                            ? "bg-accent/10 text-accent"
+                            : "bg-muted text-muted-foreground"
+                        }`}>
+                          {survey.status}
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {survey.completed_at 
+                          ? `Completed: ${new Date(survey.completed_at).toLocaleDateString()}`
+                          : `Created: ${new Date(survey.created_at).toLocaleDateString()}`
+                        }
+                      </p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => confirmDelete(survey.id)}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 size={18} />
+                    </Button>
+                  </div>
+                </Card>
+              ))
+            )}
+          </div>
+        </section>
+
         {/* Booth-wise Survey Status */}
         <section>
           <h2 className="text-xl font-bold text-foreground mb-4">Booth-wise Survey Status</h2>
@@ -203,6 +280,23 @@ const SurveyManager = () => {
           </div>
         </section>
       </main>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Survey</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this survey? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteSurvey} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
