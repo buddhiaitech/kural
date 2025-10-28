@@ -1,14 +1,20 @@
-import { toast } from "sonner";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface ActionCardProps {
   icon: string;
   title: string;
   description: string;
+  link?: string;
 }
 
-const ActionCard = ({ icon, title, description }: ActionCardProps) => {
+const ActionCard = ({ icon, title, description, link }: ActionCardProps) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const handleClick = () => {
-    toast.info(`${title} feature coming soon!`);
+    if (link) {
+      navigate(link.replace(":id", id || "118"));
+    }
   };
 
   return (

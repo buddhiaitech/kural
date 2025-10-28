@@ -88,21 +88,25 @@ const Dashboard = () => {
               icon="👥"
               title="Voter Manager"
               description="View & update voters"
+              link="/voter-manager/:id"
             />
             <ActionCard
               icon="🏠"
               title="Family Manager"
               description="Manage families"
+              link="/family-manager/:id"
             />
             <ActionCard
               icon="📋"
               title="Survey Manager"
               description="Complete surveys"
+              link="/survey-manager/:id"
             />
             <ActionCard
               icon="📊"
               title="Booth Reports"
               description="View progress"
+              link="/booth-reports/:id"
             />
           </div>
         </section>
